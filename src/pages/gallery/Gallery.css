@@ -1,0 +1,34 @@
+
+/* .container-items{
+    display: flex;
+} */
+
+.item{
+    width: 50%;
+    margin: 2% auto;
+    display: flex;
+    justify-content: space-around;
+    background-color: #FFFFFF;
+}
+
+.title-char{
+    font-size: 4rem;
+    color: #FFCF81;
+}
+
+.img-char{
+    width: 20%;
+    height: 10%;
+    margin-top: 3%;
+}
+
+.title-pica{
+    font-size: 4rem;
+    color: #ffcb05;
+}
+
+.img-pica{
+    width: 20%;
+    height: 10%;
+    margin-top: 1%;
+}

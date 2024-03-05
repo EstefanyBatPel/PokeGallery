@@ -1,0 +1,19 @@
+.container {
+    width: 65%;
+    height: 500px;
+    background-color: #FFDD95;
+    margin: 6% auto;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+.title-home{
+    width: 60%;
+}
+
+.home-charmander{
+    width: 30%;
+}
