@@ -1,0 +1,31 @@
+
+.nav {
+    height: 6vw;
+    display: flex;
+    justify-content: space-between;
+    background-color: brown;
+
+    &_img{
+        width: 15%;
+        height: 100%;
+        object-fit: cover;
+        margin-left: 4%;
+    }
+
+    &_menu{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: 4%;
+        gap: 8%;
+        list-style: none;
+    }
+
+    &_a{
+        color: #FFF;
+        text-decoration: none;
+        font-size: 20px;
+    }
+
+}
+

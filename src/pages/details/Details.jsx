@@ -1,26 +1,46 @@
-// import { pokemonInfo } from '../../services/pokemonServices';
-import { useGetPokemon } from '../../services/pokemonServices';
+import {pokemonOneInfo} from '../../services/pokemonServices';
+import { useState, useEffect } from 'react';   
+import { useParams } from "react-router";
+
 
 
 const Details = () => {
-    const { pokemones } = useGetPokemon()
+      const [isPlaying, setIsPlaying] = useState(false);
+      const { id } = useParams();
+      const [ pokemon, setPokemon ] = useState(null);
+
+      useEffect(() => {
+        const fetchData = async () =>{
+            const response = await pokemonOneInfo(id); 
+            setPokemon(response); 
+        }
+        fetchData()
+    }, [id]);
+
+
+    const sound = (audioSrc) => {
+        const audio = new Audio(audioSrc);
+        if (isPlaying) {
+          audio.pause();
+        } else {
+          audio.play();
+        }
+        setIsPlaying(!isPlaying);
+      };
+
+
   return (
     <>
-     {pokemones.map((pokemon) => (
-          <article className='article-pokemon' key={pokemon.id}>
-
-            <p className='pokemon-name'>{pokemon.name}</p>
-            <img className='img-pokemon' src={pokemon.img} alt={pokemon.name} /*onClick={() => pokemonInfo(pokemon.name)}*/ /*onClick={() => sound(pokemon.audio)}*/ />
-            {/* <section>
-              {pokemon.types?.map(type => <span key={type}>{pokemon.type}</span>)}
-              <div/>
-            </section> */}
-            {/* <article className='container-ability'>
-                <h3 className='title-ability'>Habilidades</h3>
-                {pokemon.abilities?.map(ability => <span className='ability' key={ability}>{ability}</span>)}
-            </article> */}
-          </article>
-        ))}
+      <div>
+          {pokemon ? (
+           <article key={pokemon.id}>
+           <h1 className='n'>Nombre: {pokemon.name}</h1><br />
+           <img src={pokemon.sprites.other.dream_world.front_default} alt='img-animal' className='image' onClick={() => sound(pokemon.cries.legacy)}/>
+         </article>
+          ) : (
+            <p>Loading data...</p>
+          )}
+        </div>
     </>
   )
 }
