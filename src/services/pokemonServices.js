@@ -17,7 +17,7 @@ const getPokemones = async (url = url_default) => {
         const poke = await response.json()
 
 
-       const abilities = poke.abilities.map(abil => abil.ability.name) //para acceder a las habilidades por q estan dentro de otro array
+        const abilities = poke.abilities.map(abil => abil.ability.name) //para acceder a las habilidades por q estan dentro de otro array
         return {
             id:poke.id,
             name:poke.name,
