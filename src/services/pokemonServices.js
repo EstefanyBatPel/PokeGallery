@@ -1,62 +1,57 @@
 import { useState, useEffect } from 'react';
+const url_default = 'https://pokeapi.co/api/v2/pokemon?limit=20';
+
+export const useGetPokemon = () => { 
+const [pokemones, setPokemones] = useState([])
+const [ nUrl, setNextUrl] = useState('')
+const [seeMore, setSeeMore] = useState(true)
+
+const getPokemones = async (url = url_default) => {
+    const response = await fetch(url) ;
+    const dataPokemones = await response.json();
+    const { next, results} = dataPokemones;   
+
+    const newPokemones = await Promise.all(
+    results.map( async (pokemon) =>{ //retorna un array de promesas por eso hacemos mas abajo un Promise.all
+        const response = await fetch(pokemon.url)        
+        const poke = await response.json()
 
 
-for (let i = 1; i <= 151; i++) {
-    fetch(URL + i) /* El resultado de esta operacion sera https://pokeapi.co/api/v2/pokemon/1 <-poniendo al final el numero pokemon hasta llegar a 151*/
-        .then((response) => response.json())
-        .then(data => useGetPokemon(data))
+       const abilities = poke.abilities.map(abil => abil.ability.name) //para acceder a las habilidades por q estan dentro de otro array
+        return {
+            id:poke.id,
+            name:poke.name,
+            img: poke.sprites.other.dream_world.front_default || poke.sprites.front_default,
+            audio: poke.cries.latest,
+            abilities
+        }
+    })
+    )
+    return { next, newPokemones }
+
 }
 
-export const useGetPokemon = (URL) => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+const obtainPokemones = async () =>{
+    const { next, newPokemones } = await getPokemones();
+    setPokemones(newPokemones)
+    setNextUrl(next)
+}
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(URL);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-                const jsonData = await response.json();
-                setData(jsonData);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+const morePokemones = async () =>{
+    const { next, newPokemones } = await getPokemones(nUrl);
+    setPokemones(prev => [...prev, ...newPokemones]) //los pokemones previos y los siguientes
+    next === null && setSeeMore(false)
+    setNextUrl(next)
+}
 
-        fetchData();
-    }, [URL]);
-
-    return { data, loading, error };
-};
+useEffect(() => { obtainPokemones()}, [])
+    return { pokemones, morePokemones, seeMore }
+}
 
 
-// export default function useFetch(url) {
-
-// export const getPokemon = async(URL) => {
-
-//     const [data, setData] = useState(null);
-
-//     useEffect(() => {
-//         fetch(URL)
-//             .then((response) => response.json())
-//             .then((data) => setData(data))
-//     },[URL]);
-
-//     return { data }
-// }
-
-
-
-// let URL = 'https://pokeapi.co/api/v2/pokemon/';
-
-// export const getPokemon = async() => {
-//     const response = await fetch(URL);
-//     const transformData = await response.json();
-
-//     return transformData;
-// }
+/*por nombre*/
+export const pokemonOneInfo = async(name) =>{
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
+    const data = await response.json()
+       console.log(data);
+}

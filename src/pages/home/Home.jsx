@@ -2,8 +2,6 @@ import './Home.css';
 import charmander from '../../assets/img/charmanderPNG 4.png';
 import title from '../../assets/img/PokemonTitle 1.png';
 
-import React from 'react'
-
 const Home = () => {
   return (
     <div className='container'>
