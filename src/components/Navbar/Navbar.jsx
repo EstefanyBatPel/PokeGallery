@@ -1,4 +1,3 @@
-import '../../components/Navbar/Navbar.css';
 import title from '../../assets/img/title.png';
 import '../Navbar/Navbar.scss';
 
