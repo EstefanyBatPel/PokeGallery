@@ -50,8 +50,8 @@ useEffect(() => { obtainPokemones()}, [])
 
 
 /*por nombre*/
-export const pokemonOneInfo = async(name) =>{
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
+export const pokemonOneInfo = async(id) =>{
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
     const data = await response.json()
-       console.log(data);
+       return data;
 }
